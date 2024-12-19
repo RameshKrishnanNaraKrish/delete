@@ -49,7 +49,7 @@ pipeline {
                     script {
                     // Set up Python environment (assuming Python and pip are available)
                     sh 'python3 -m venv venv'
-                    sh 'source venv/bin/activate && pip install requests'
+                    sh '. venv/bin/activate && pip install requests'
 
                     // Run the Python script to revert the PR
                     withEnv(["GITHUB_OWNER=${env.OWNER}", "GITHUB_REPO=${env.REPO}", "PR_ID=${env.PR_ID}", "GITHUB_TOKEN=${env.GITHUB_TOKEN}"]) {
