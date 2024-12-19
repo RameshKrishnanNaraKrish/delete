@@ -130,7 +130,7 @@ pipeline {
 
                     // Add and commit the changes
                     sh 'git add .'
-                    sh 'git commit -m "Revert PR ${env.PR_ID}"'
+                    sh 'git commit -m "Revert PR $PR_ID"'
                 }
             }
         }
@@ -139,7 +139,7 @@ pipeline {
             steps {
                 script {
                     // Push the new branch
-                    sh 'git push origin revert-pr-${env.PR_ID}'
+                    sh 'git push origin revert-pr-$PR_ID'
                 }
             }
         }   
