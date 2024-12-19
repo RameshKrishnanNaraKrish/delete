@@ -77,7 +77,7 @@ pipeline {
             }
         }
 
-        stage('Revert PR') {
+        /* stage('Revert PR') {
             steps {
                 script {
                     // Checkout the repository
@@ -110,7 +110,43 @@ pipeline {
                     }
                 }
             }
+        } */
+
+        stage('Revert PR') {
+            steps {
+                script {
+
+                    def prDetails = sh(
+                            script: """
+                                curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+                                -H "Accept: application/vnd.github.v3+json" \
+                                ${GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}
+                            """.stripIndent(),
+                            returnStdout: true
+                        ).trim()
+
+                        def jsonSlurper = new groovy.json.JsonSlurper()
+                        def prData = jsonSlurper.parseText(prDetails)
+                        def mergeCommitSha = prData.merge_commit_sha
+                    
+                    // Perform the revert
+                    sh "git revert -m 1 --no-edit ${mergeCommitSha}"
+
+                    // Add and commit the changes
+                    sh 'git add .'
+                    sh 'git commit -m "Revert PR ${env.PR_ID}"'
+                }
+            }
         }
+
+        stage('Push Revert Branch') {
+            steps {
+                script {
+                    // Push the new branch
+                    sh 'git push origin revert-pr-${env.PR_ID}'
+                }
+            }
+        }   
 
         stage('Create Pull Request') {
             steps {
