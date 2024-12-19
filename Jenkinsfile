@@ -125,9 +125,9 @@ pipeline {
                             returnStdout: true
                         ).trim()
 
-                        def jsonSlurper = new groovy.json.JsonSlurper()
-                        def prData = jsonSlurper.parseText(prDetails)
-                        def mergeCommitSha = prData.merge_commit_sha
+                    def jsonSlurper = new groovy.json.JsonSlurperClassic()
+                    def json = jsonSlurper.parseText(response)
+                    def mergeCommitSha = json.merge_commit_sha
                     
                     // Perform the revert
                     sh "git revert -m 1 --no-edit ${mergeCommitSha}"
