@@ -55,13 +55,9 @@ pipeline {
                     echo "PR_ID: ${env.PR_ID}"
 
                     // Run the Python script to revert the PR
-                    sh '''#!/bin/bash
-                        export OWNER=${env.OWNER}
-                        export REPO=${env.REPO}
-                        export PR_ID=${env.PR_ID}
-                        export GITHUB_TOKEN=${env.GITHUB_TOKEN}
-                        python3 revert_pr.py $OWNER $REPO $PR_ID $GITHUB_TOKEN
-                    '''
+                    sh """
+                        python3 revert_pr.py ${env.OWNER} ${env.REPO} ${env.PR_ID} ${env.GITHUB_TOKEN}
+                    """
                 }
             }
         }
