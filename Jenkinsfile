@@ -116,18 +116,14 @@ pipeline {
             steps {
                 script {
 
-                    def prDetails = sh(
-                            script: """
-                                curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-                                -H "Accept: application/vnd.github.v3+json" \
-                                ${GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}
-                            """.stripIndent(),
-                            returnStdout: true
-                        ).trim()
+                    def response = sh(script: """
+                        curl -s -H "Authorization: token ${env.GITHUB_TOKEN}" \
+                        ${env.GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID} | jq -r '.merge_commit_sha'
+                    """, returnStdout: true).trim()
 
-                    def jsonSlurper = new groovy.json.JsonSlurperClassic()
-                    def json = jsonSlurper.parseText(prDetails)
-                    def mergeCommitSha = json.merge_commit_sha
+                    env.MERGE_COMMIT_SHA = response
+
+                    def mergeCommitSha = env.MERGE_COMMIT_SHA
                     
                     // Perform the revert
                     sh "git revert -m 1 --no-edit ${mergeCommitSha}"
