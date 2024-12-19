@@ -126,6 +126,8 @@ pipeline {
                     def mergeCommitSha = env.MERGE_COMMIT_SHA
                     
                     // Perform the revert
+                    sh "git branch -D revert-pr-$PR_ID"
+                    sh 'git checkout -b revert-pr-$PR_ID'
                     sh "git revert -m 1 --no-edit ${mergeCommitSha}"
 
                     // Add and commit the changes
