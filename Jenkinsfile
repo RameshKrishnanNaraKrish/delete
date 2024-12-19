@@ -57,11 +57,16 @@ pipeline {
                     // Fetch the latest changes from the remote repository
                     sh 'git fetch origin'
 
-                    // Checkout the source branch
-                    sh 'git checkout $SOURCE_BRANCH'
+                  def branchExists = sh(script: "git ls-remote --heads origin ${env.SOURCE_BRANCH}", returnStatus: true) == 0
 
-                    // Pull the latest changes
-                    sh 'git pull origin $SOURCE_BRANCH'
+                    if (branchExists) {
+                        // Checkout the source branch
+                        sh 'git checkout $SOURCE_BRANCH'
+                        // Pull the latest changes
+                        sh 'git pull origin $SOURCE_BRANCH'
+                    } else {
+                        error "Source branch ${env.SOURCE_BRANCH} does not exist on the remote repository."
+                    }
                 }
             }
         }
