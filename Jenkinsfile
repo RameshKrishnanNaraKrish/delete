@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         GITHUB_API_URL = 'https://api.github.com/repos'
-        GITHUB_TOKEN = credentials('github-token')  // Use Jenkins credentials for GitHub token
+        GITHUB_TOKEN = credentials('github')  // Use Jenkins credentials for GitHub token
     }
 
     stages {
