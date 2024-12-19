@@ -11,7 +11,6 @@ pipeline {
     }
 
     stages {
-
       stage('Validate and Extract PR Details') {
             steps {
                 script {
