@@ -2,7 +2,7 @@ pipeline {
     agent any
 
   parameters {
-        string(name: 'PR_URL', defaultValue: 'https://github.com/RameshKrishnanNaraKrish/react-project-webapp/pull/7', description: 'URL of the Pull Request (e.g., https://github.com/owner/repo/pull/123)')
+        string(name: 'PR_URL', defaultValue: 'https://github.com/RameshKrishnanNaraKrish/react-project-webapp/pull/8', description: 'URL of the Pull Request (e.g., https://github.com/owner/repo/pull/123)')
     }
 
     environment {
