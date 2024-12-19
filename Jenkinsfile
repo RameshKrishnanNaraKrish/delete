@@ -34,9 +34,25 @@ pipeline {
             }
         }
 
+        stage('Get Source Branch') {
+            steps {
+                script {
+                    def response = sh(script: """
+                        curl -s -H "Authorization: token ${env.GITHUB_TOKEN}" \
+                        ${env.GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}
+                    """, returnStdout: true).trim()
+
+                    def json = readJSON text: response
+                    env.SOURCE_BRANCH = json.head.ref
+
+                    echo "Source Branch: ${env.SOURCE_BRANCH}"
+                }
+            }
+        }
+
         stage('Checkout Repository') {
             steps {
-                git branch: 'main', url: "https://github.com/${env.OWNER}/${env.REPO}.git"
+                git branch: "${env.SOURCE_BRANCH}", url: "https://github.com/${env.OWNER}/${env.REPO}.git"
             }
         }
 
