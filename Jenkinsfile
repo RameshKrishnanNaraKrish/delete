@@ -42,7 +42,8 @@ pipeline {
                         ${env.GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls/${env.PR_ID}
                     """, returnStdout: true).trim()
 
-                    def json = readJSON text: response
+                    def jsonSlurper = new groovy.json.JsonSlurper()
+                    def json = jsonSlurper.parseText(response)
                     env.SOURCE_BRANCH = json.head.ref
 
                     echo "Source Branch: ${env.SOURCE_BRANCH}"
