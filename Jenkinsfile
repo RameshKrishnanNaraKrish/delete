@@ -54,16 +54,15 @@ pipeline {
         stage('Checkout Repository') {
             steps {
                 script {
-                    // Fetch the latest changes from the remote repository
-                    sh 'git fetch origin'
+                    // Fetch all branches from the remote repository
+                    sh 'git fetch --all'
 
-                  def branchExists = sh(script: "git ls-remote --heads origin ${env.SOURCE_BRANCH}", returnStatus: true) == 0
+                    // Check if the source branch exists on the remote
+                    def branchExists = sh(script: "git ls-remote --heads origin ${env.SOURCE_BRANCH}", returnStatus: true) == 0
 
                     if (branchExists) {
-                        // Checkout the source branch
-                        sh 'git checkout $SOURCE_BRANCH'
-                        // Pull the latest changes
-                        sh 'git pull origin $SOURCE_BRANCH'
+                        // Checkout the source branch from the remote
+                        sh 'git checkout -b $SOURCE_BRANCH origin/$SOURCE_BRANCH'
                     } else {
                         error "Source branch ${env.SOURCE_BRANCH} does not exist on the remote repository."
                     }
