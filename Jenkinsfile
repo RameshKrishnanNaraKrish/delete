@@ -46,18 +46,16 @@ pipeline {
                     // Checkout the repository
                     checkout scm
 
+                    /script {
                     // Set up Python environment (assuming Python and pip are available)
-                    //sh 'python3 -m venv venv'
-                    //sh 'source venv/bin/activate && pip install requests'
-
-                    echo "OWNER: ${env.OWNER}"
-                    echo "REPO: ${env.REPO}"
-                    echo "PR_ID: ${env.PR_ID}"
+                    sh 'python3 -m venv venv'
+                    sh 'source venv/bin/activate && pip install requests'
 
                     // Run the Python script to revert the PR
-                    sh """
-                        python3 revert_pr.py
-                    """
+                    withEnv(["GITHUB_OWNER=${env.OWNER}", "GITHUB_REPO=${env.REPO}", "PR_ID=${env.PR_ID}", "GITHUB_TOKEN=${env.GITHUB_TOKEN}"]) {
+                        sh 'source venv/bin/activate && python3 revert_pr.py'
+                        }
+                    }
                 }
             }
         }
