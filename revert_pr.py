@@ -20,6 +20,7 @@ def revert_pr(repo_owner, repo_name, pr_id, github_token):
         sys.exit(1)
     
     pr_data = response.json()
+    print(f'PR_data {pr_data}')
     merge_commit_sha = pr_data.get('merge_commit_sha')
     
     if not merge_commit_sha:
