@@ -51,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('Checkout Repository') {
+        /*stage('Checkout Repository') {
             steps {
                 script {
                     // Fetch all branches from the remote repository
@@ -75,7 +75,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         /* stage('Revert PR') {
             steps {
