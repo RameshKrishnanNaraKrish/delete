@@ -50,6 +50,10 @@ pipeline {
                     //sh 'python3 -m venv venv'
                     //sh 'source venv/bin/activate && pip install requests'
 
+                    echo "OWNER: ${env.OWNER}"
+                    echo "REPO: ${env.REPO}"
+                    echo "PR_ID: ${env.PR_ID}"
+
                     // Run the Python script to revert the PR
                     sh '''
                         python3 revert_pr.py $OWNER $REPO $PR_ID $GITHUB_TOKEN
