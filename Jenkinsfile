@@ -58,10 +58,10 @@ pipeline {
                     sh 'git fetch origin'
 
                     // Checkout the source branch
-                    sh 'git checkout ${env.SOURCE_BRANCH}'
+                    sh 'git checkout $SOURCE_BRANCH'
 
                     // Pull the latest changes
-                    sh 'git pull origin ${env.SOURCE_BRANCH}'
+                    sh 'git pull origin $SOURCE_BRANCH'
                 }
             }
         }
