@@ -56,6 +56,10 @@ pipeline {
 
                     // Run the Python script to revert the PR
                     sh '''
+                        export OWNER=${env.OWNER}
+                        export REPO=${env.REPO}
+                        export PR_ID=${env.PR_ID}
+                        export GITHUB_TOKEN=${env.GITHUB_TOKEN}
                         python3 revert_pr.py $OWNER $REPO $PR_ID $GITHUB_TOKEN
                     '''
                 }
