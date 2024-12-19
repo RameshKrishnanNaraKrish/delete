@@ -52,7 +52,7 @@ pipeline {
 
                     // Run the Python script to revert the PR
                     sh '''
-                        python revert_pr.py '${GITHUB_OWNER}' '${GITHUB_REPO}' '${PR_ID}' '${GITHUB_TOKEN}'
+                        python3 revert_pr.py '${GITHUB_OWNER}' '${GITHUB_REPO}' '${PR_ID}' '${GITHUB_TOKEN}'
                     '''
                 }
             }
