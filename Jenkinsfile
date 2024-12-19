@@ -53,7 +53,16 @@ pipeline {
 
         stage('Checkout Repository') {
             steps {
-                git branch: "${env.SOURCE_BRANCH}", url: "https://github.com/${env.OWNER}/${env.REPO}.git"
+                script {
+                    // Fetch the latest changes from the remote repository
+                    sh 'git fetch origin'
+
+                    // Checkout the source branch
+                    sh 'git checkout ${env.SOURCE_BRANCH}'
+
+                    // Pull the latest changes
+                    sh 'git pull origin ${env.SOURCE_BRANCH}'
+                }
             }
         }
 
