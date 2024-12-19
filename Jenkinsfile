@@ -51,11 +51,34 @@ pipeline {
                     sh 'python3 -m venv venv'
                     sh '. venv/bin/activate && pip install requests'
 
+                    sh 'git checkout -b revert-pr-${env.PR_ID}'
+
                     // Run the Python script to revert the PR
                     withEnv(["GITHUB_OWNER=${env.OWNER}", "GITHUB_REPO=${env.REPO}", "PR_ID=${env.PR_ID}", "GITHUB_TOKEN=${env.GITHUB_TOKEN}"]) {
                         sh '. venv/bin/activate && python3 revert_pr.py'
                         }
+
+                    // Add and commit the changes
+                    sh 'git add .'
+                    sh 'git commit -m "Revert PR ${env.PR_ID}"'
+
+                    // Push the new branch
+                    sh 'git push origin revert-pr-${env.PR_ID}'
+                        
                     }
+                }
+            }
+        }
+
+        stage('Create Pull Request') {
+            steps {
+                script {
+                    // Create a pull request for the revert branch
+                    sh """
+                    curl -X POST -H "Authorization: token ${env.GITHUB_TOKEN}" \
+                    -d '{ "title": "Revert PR ${env.PR_ID}", "head": "revert-pr-${env.PR_ID}", "base": "main" }' \
+                    ${env.GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls
+                    """
                 }
             }
         }
