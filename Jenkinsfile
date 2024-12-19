@@ -52,8 +52,7 @@ pipeline {
 
                     // Run the Python script to revert the PR
                     sh '''
-                        source venv/bin/activate
-                        python3 revert_pr.py $env.OWNER $env.REPO $env.PR_ID $GITHUB_TOKEN
+                        bash -c "source venv/bin/activate && python3 revert_pr.py $GITHUB_OWNER $GITHUB_REPO $PR_ID $GITHUB_TOKEN"
                     '''
                 }
             }
