@@ -61,8 +61,15 @@ pipeline {
                     def branchExists = sh(script: "git ls-remote --heads origin ${env.SOURCE_BRANCH}", returnStatus: true) == 0
 
                     if (branchExists) {
+                        // Delete the local branch if it exists
+                        sh """
+                        if git show-ref --verify --quiet refs/heads/$SOURCE_BRANCH; then
+                            git branch -D $SOURCE_BRANCH
+                        fi
+                        """
+
                         // Checkout the source branch from the remote
-                        sh 'git checkout -b $SOURCE_BRANCH origin/$SOURCE_BRANCH'
+                        sh 'git checkout -b $SOURCE_BRANCH origin/SOURCE_BRANCH'
                     } else {
                         error "Source branch ${env.SOURCE_BRANCH} does not exist on the remote repository."
                     }
