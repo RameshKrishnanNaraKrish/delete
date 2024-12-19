@@ -55,7 +55,7 @@ pipeline {
                     echo "PR_ID: ${env.PR_ID}"
 
                     // Run the Python script to revert the PR
-                    sh '''
+                    sh '''#!/bin/bash
                         export OWNER=${env.OWNER}
                         export REPO=${env.REPO}
                         export PR_ID=${env.PR_ID}
