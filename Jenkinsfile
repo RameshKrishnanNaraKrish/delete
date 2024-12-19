@@ -53,7 +53,14 @@ pipeline {
 
                     // Run the Python script to revert the PR
                     withEnv(["GITHUB_OWNER=${env.OWNER}", "GITHUB_REPO=${env.REPO}", "PR_ID=${env.PR_ID}", "GITHUB_TOKEN=${env.GITHUB_TOKEN}"]) {
-                        sh 'git checkout -b revert-pr-$PR_ID'
+                        sh """
+                        if git show-ref --verify --quiet refs/heads/revert-pr-${env.PR_ID}; then
+                            git branch -D revert-pr-${env.PR_ID}
+                        fi
+                        """
+                        // Create a new branch for the revert
+                        sh 'git checkout -b revert-pr-${env.PR_ID}'
+
                         sh '. venv/bin/activate && python3 revert_pr.py'
 
                                             // Add and commit the changes
@@ -62,8 +69,6 @@ pipeline {
         
                             // Push the new branch
                             sh 'git push origin revert-pr-$PR_ID'
-
-                        
                         }
                     }
                 }
