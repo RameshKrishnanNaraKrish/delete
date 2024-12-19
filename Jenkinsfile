@@ -56,7 +56,7 @@ pipeline {
 
                     // Run the Python script to revert the PR
                     sh """
-                        python3 revert_pr.py ${env.OWNER} ${env.REPO} ${env.PR_ID} ${env.GITHUB_TOKEN}
+                        python3 revert_pr.py
                     """
                 }
             }
