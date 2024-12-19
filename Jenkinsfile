@@ -69,7 +69,7 @@ pipeline {
                         """
 
                         // Checkout the source branch from the remote
-                        sh 'git checkout -b $SOURCE_BRANCH origin/SOURCE_BRANCH'
+                        sh 'git checkout -b $SOURCE_BRANCH origin/$SOURCE_BRANCH'
                     } else {
                         error "Source branch ${env.SOURCE_BRANCH} does not exist on the remote repository."
                     }
