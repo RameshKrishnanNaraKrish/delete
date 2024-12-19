@@ -126,7 +126,7 @@ pipeline {
                         ).trim()
 
                     def jsonSlurper = new groovy.json.JsonSlurperClassic()
-                    def json = jsonSlurper.parseText(response)
+                    def json = jsonSlurper.parseText(prDetails)
                     def mergeCommitSha = json.merge_commit_sha
                     
                     // Perform the revert
