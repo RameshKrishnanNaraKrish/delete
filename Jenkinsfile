@@ -46,7 +46,7 @@ pipeline {
                     // Checkout the repository
                     checkout scm
 
-                    /script {
+                    script {
                     // Set up Python environment (assuming Python and pip are available)
                     sh 'python3 -m venv venv'
                     sh 'source venv/bin/activate && pip install requests'
