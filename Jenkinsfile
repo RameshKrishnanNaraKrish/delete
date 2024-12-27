@@ -90,24 +90,16 @@ pipeline {
         stage('Push Revert Branch') {
             steps {
                 script {
-                    // Push the new branch
-                    //sh 'git push origin revert-pr-$PR_ID'
-                    sh 'git push'
+                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                    // Configure Git to use the token for authentication
+                        sh '''
+                            git config user.name "Jenkins CI"
+                            git config user.email "jenkins@example.com
+                            sh 'git push'
+                        '''
+                    }
                 }
             }
-        }   
-
-        /*stage('Create Pull Request') {
-            steps {
-                script {
-                    // Create a pull request for the revert branch
-                    sh """
-                    curl -X POST -H "Authorization: token ${env.GITHUB_TOKEN}" \
-                    -d '{ "title": "Revert PR ${env.PR_ID}", "head": "revert-pr-${env.PR_ID}", "base": "main" }' \
-                    ${env.GITHUB_API_URL}/${env.OWNER}/${env.REPO}/pulls
-                    """
-                }
-            }
-        }*/
+        }
     }
 }
