@@ -73,7 +73,7 @@ pipeline {
 
                     //def mergeCommitSha = env.MERGE_COMMIT_SHA
 
-                    sh """
+                    sh '''
                         git config user.name "Jenkins CI"
                         git config user.email "jenkins@example.com"
 
@@ -85,7 +85,7 @@ pipeline {
                         git status
                         git revert -m 1 $MERGE_COMMIT_SHA
                         git push
-                    """
+                    '''
                 }
             }
         }
