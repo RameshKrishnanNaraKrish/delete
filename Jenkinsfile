@@ -39,13 +39,14 @@ pipeline {
                 script {
                     // Check if the directory exists and remove it
                     sh '''
-                    if [ -d "${env.REPO}" ]; then
-                        echo "Directory ${env.REPO} exists. Deleting it..."
-                        rm -rf "${env.REPO}"
+                    #!/bin/bash
+                    if [ -d "$REPO" ]; then
+                        echo "Directory $REPO exists. Deleting it..."
+                        rm -rf "$REPO"
                     fi
                     echo "Cloning repository..."
-                    git clone https://github.com/${env.OWNER}/${env.REPO}.git
-                    cd ${env.REPO}
+                    git clone https://github.com/$OWNER/$REPO.git
+                    cd $REPO
                     '''
                 }
             }
