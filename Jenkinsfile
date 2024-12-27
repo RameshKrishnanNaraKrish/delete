@@ -74,7 +74,7 @@ pipeline {
                     def mergeCommitSha = env.MERGE_COMMIT_SHA
 
                     sh '''
-                        cd ${env.REPO}
+                        cd $REPO
                         pwd
                         git status
                         git revert -m 1 ${mergeCommitSha}
