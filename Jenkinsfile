@@ -75,6 +75,7 @@ pipeline {
 
                     sh '''
                         cd $REPO
+                        git pull origin main
                         pwd
                         git status
                         git revert -m 1 $MERGE_COMMIT_SHA
@@ -93,8 +94,7 @@ pipeline {
                             git config user.email "jenkins@example.com"
 
                             git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
-
-                            git pull origin main
+                            
                             git push origin main
                         '''
                     }
