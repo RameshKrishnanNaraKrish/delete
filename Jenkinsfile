@@ -45,6 +45,23 @@ pipeline {
                 sh 'git status'
             }
         }
+
+        stage('Clean and Clone Repository') {
+            steps {
+                script {
+                    // Check if the directory exists and remove it
+                    sh '''
+                    if [ -d "${env.REPO}" ]; then
+                        echo "Directory ${env.REPO} exists. Deleting it..."
+                        rm -rf "${env.REPO}"
+                    fi
+                    echo "Cloning repository..."
+                    git clone "https://github.com/${env.OWNER}/${env.REPO}.git"
+                    cd ${env.REPO}
+                    '''
+                }
+            }
+        }
         
         /*stage('Get Source Branch') {
             steps {
@@ -140,7 +157,6 @@ pipeline {
                     // Perform the revert
                     //sh "git branch -D revert-pr-$PR_ID"
                     //sh 'git checkout -b revert-pr-$PR_ID'
-                    sh "cd ${env.REPO}"
                     sh 'pwd'
                     //sh "git revert -m 1 ${mergeCommitSha}"
 
