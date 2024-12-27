@@ -71,37 +71,20 @@ pipeline {
 
                     env.MERGE_COMMIT_SHA = response
 
-                    //def mergeCommitSha = env.MERGE_COMMIT_SHA
+                    withCredentials([sshUserPrivateKey(credentialsId: 'your-ssh-credential-id')]) {
 
-                    sh '''
-                        git config user.name "Jenkins CI"
-                        git config user.email "jenkins@example.com"
-
-                        git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
-                   
-                        cd $REPO
-                        git pull --no-rebase origin main
-                        pwd
-                        git status
-                        git revert -m 1 $MERGE_COMMIT_SHA
-                        git push
-                    '''
-                }
-            }
-        }
-
-        stage('Push Revert Branch') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-                    // Configure Git to use the token for authentication
                         sh '''
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@example.com"
-
+    
                             git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
-                            
-                            git push origin main
+                       
+                            cd $REPO
+                            git pull --no-rebase origin main
+                            pwd
+                            git status
+                            git revert -m 1 $MERGE_COMMIT_SHA
+                            git push
                         '''
                     }
                 }
