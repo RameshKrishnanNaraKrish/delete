@@ -40,7 +40,7 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']], // Replace 'main' with your branch
                     userRemoteConfigs: [[
-                        url: 'https://github.com/${env.OWNER}/${env.REPO}.git' // Replace with your repository URL
+                        url: "https://github.com/${env.OWNER}/${env.REPO}.git" // Replace with your repository URL
                     ]]
                 ])
             }
