@@ -91,7 +91,7 @@ pipeline {
                         sh '''
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@example.com"
-                            git push
+                            git push origin main
                         '''
                     }
                 }
