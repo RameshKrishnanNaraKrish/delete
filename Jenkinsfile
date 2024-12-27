@@ -77,7 +77,7 @@ pipeline {
                         cd $REPO
                         pwd
                         git status
-                        git revert -m 1 ${mergeCommitSha}
+                        git revert -m 1 $MERGE_COMMIT_SHA
                         // Add and commit the changes
                         git add .
                         git commit -m "Revert PR $PR_ID"
