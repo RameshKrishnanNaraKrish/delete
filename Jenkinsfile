@@ -126,13 +126,14 @@ pipeline {
                     def mergeCommitSha = env.MERGE_COMMIT_SHA
                     
                     // Perform the revert
-                    sh "git branch -D revert-pr-$PR_ID"
-                    sh 'git checkout -b revert-pr-$PR_ID'
-                    sh "git revert -m 1 --no-edit ${mergeCommitSha}"
+                    //sh "git branch -D revert-pr-$PR_ID"
+                    //sh 'git checkout -b revert-pr-$PR_ID'
+                    sh "git revert -m 1 ${mergeCommitSha}"
 
                     // Add and commit the changes
                     sh 'git add .'
                     sh 'git commit -m "Revert PR $PR_ID"'
+                    sh "git revert -m 1 ${mergeCommitSha}"
                 }
             }
         }
@@ -141,12 +142,13 @@ pipeline {
             steps {
                 script {
                     // Push the new branch
-                    sh 'git push origin revert-pr-$PR_ID'
+                    //sh 'git push origin revert-pr-$PR_ID'
+                    sh 'git push'
                 }
             }
         }   
 
-        stage('Create Pull Request') {
+        /*stage('Create Pull Request') {
             steps {
                 script {
                     // Create a pull request for the revert branch
@@ -157,6 +159,6 @@ pipeline {
                     """
                 }
             }
-        }
+        }*/
     }
 }
