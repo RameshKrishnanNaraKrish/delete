@@ -2,7 +2,7 @@ pipeline {
     agent any
 
   parameters {
-        string(name: 'PR_URL', defaultValue: 'https://github.com/RameshKrishnanNaraKrish/react-project-webapp/pull/8', description: 'URL of the Pull Request (e.g., https://github.com/owner/repo/pull/123)')
+        string(name: 'PR_URL', defaultValue: '', description: 'URL of the Pull Request (e.g., https://github.com/owner/repo/pull/123)')
     }
 
     environment {
@@ -11,6 +11,19 @@ pipeline {
     }
 
     stages {
+
+        stage('Setup Environment') {
+            steps {
+                script {
+                    wrap([$class: 'BuildUser']) {
+                        env.USER_NAME = "${env.BUILD_USER}"
+                        env.USER_FULL_NAME = "${env.BUILD_USER_FIRST_NAME} ${env.BUILD_USER_LAST_NAME}"
+                        env.USER_EMAIL = "${env.BUILD_USER_EMAIL}"
+                    }
+                }
+            }
+        }
+        
       stage('Validate and Extract PR Details') {
             steps {
                 script {
@@ -71,11 +84,11 @@ pipeline {
 
                     env.MERGE_COMMIT_SHA = response
 
-                    withCredentials([sshUserPrivateKey(credentialsId: 'your-ssh-credential-id')]) {
+                    withCredentials([usernamePassword(credentialsId: '***********', passwordVariable: 'Git_pwd', usernameVariable: 'Git_Username')]) {
 
                         sh '''
-                            git config user.name "Jenkins CI"
-                            git config user.email "jenkins@example.com"
+                            git config user.name "$USER_FULL_NAME"
+                            git config user.email "$USER_EMAIL"
     
                             git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
                        
