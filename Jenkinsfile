@@ -128,6 +128,7 @@ pipeline {
                     // Perform the revert
                     //sh "git branch -D revert-pr-$PR_ID"
                     //sh 'git checkout -b revert-pr-$PR_ID'
+                    sh 'git fetch origin'
                     sh "git revert -m 1 ${mergeCommitSha}"
 
                     // Add and commit the changes
