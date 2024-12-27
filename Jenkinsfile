@@ -141,8 +141,7 @@ pipeline {
                     //sh "git branch -D revert-pr-$PR_ID"
                     //sh 'git checkout -b revert-pr-$PR_ID'
                     sh "cd ${env.REPO}"
-                    sh 'git fetch origin'
-                    sh 'git log'
+                    sh 'pwd'
                     //sh "git revert -m 1 ${mergeCommitSha}"
 
                     // Add and commit the changes
