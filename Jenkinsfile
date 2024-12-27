@@ -47,6 +47,7 @@ pipeline {
                     echo "Cloning repository..."
                     git clone https://github.com/$OWNER/$REPO.git
                     cd $REPO
+                    pwd
                     '''
                 }
             }
@@ -146,6 +147,7 @@ pipeline {
                     // Perform the revert
                     //sh "git branch -D revert-pr-$PR_ID"
                     //sh 'git checkout -b revert-pr-$PR_ID'
+                    sh "cd ${env.REPO}"
                     sh 'pwd'
                     //sh "git revert -m 1 ${mergeCommitSha}"
 
