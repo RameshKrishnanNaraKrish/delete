@@ -75,7 +75,7 @@ pipeline {
 
                     sh '''
                         cd $REPO
-                        git pull origin main
+                        git pull --no-rebase origin main
                         pwd
                         git status
                         git revert -m 1 $MERGE_COMMIT_SHA
