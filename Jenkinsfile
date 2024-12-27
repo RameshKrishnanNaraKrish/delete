@@ -90,8 +90,8 @@ pipeline {
                     // Configure Git to use the token for authentication
                         sh '''
                             git config user.name "Jenkins CI"
-                            git config user.email "jenkins@example.com
-                            sh 'git push'
+                            git config user.email "jenkins@example.com"
+                            git push
                         '''
                     }
                 }
