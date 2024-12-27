@@ -91,6 +91,9 @@ pipeline {
                         sh '''
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@example.com"
+
+                            git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
+                            
                             git push origin main
                         '''
                     }
