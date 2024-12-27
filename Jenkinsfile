@@ -34,15 +34,14 @@ pipeline {
             }
         }
 
-        stage('Checkout Commit Repository') {
+        stage('Checkout Repository') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']], // Replace 'main' with your branch
-                    userRemoteConfigs: [[
-                        url: "https://github.com/${env.OWNER}/${env.REPO}.git" // Replace with your repository URL
-                    ]]
+                checkout([$class: 'GitSCM', 
+                    userRemoteConfigs: [[url: "https://github.com/${env.OWNER}/${env.REPO}.git"]],
+                    branches: [[name: '*/main']], 
+                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false]]
                 ])
+                sh 'git status'
             }
         }
         
