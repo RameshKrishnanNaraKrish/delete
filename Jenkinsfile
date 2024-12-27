@@ -34,18 +34,6 @@ pipeline {
             }
         }
 
-        /*stage('Checkout Repository') {
-            steps {
-                checkout([$class: 'GitSCM', 
-                    userRemoteConfigs: [[url: "https://github.com/${env.OWNER}/${env.REPO}.git"]],
-                    branches: [[name: '*/main']], 
-                    extensions: [[$class: 'CloneOption', noTags: false, shallow: false]]
-                ])
-                sh "git clone https://github.com/${env.OWNER}/${env.REPO}.git"
-                sh 'git status'
-            }
-        }*/
-
         stage('Clean and Clone Repository') {
             steps {
                 script {
