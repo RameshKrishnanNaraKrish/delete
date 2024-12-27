@@ -79,6 +79,7 @@ pipeline {
                         pwd
                         git status
                         git revert -m 1 $MERGE_COMMIT_SHA
+                        git push
                     '''
                 }
             }
