@@ -44,7 +44,7 @@ pipeline {
                         rm -rf "${env.REPO}"
                     fi
                     echo "Cloning repository..."
-                    git clone "https://github.com/${env.OWNER}/${env.REPO}.git"
+                    git clone https://github.com/${env.OWNER}/${env.REPO}.git
                     cd ${env.REPO}
                     '''
                 }
