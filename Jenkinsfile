@@ -34,7 +34,19 @@ pipeline {
             }
         }
 
-        stage('Get Source Branch') {
+        stage('Checkout Commit Repository') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']], // Replace 'main' with your branch
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/${env.OWNER}/${env.REPO}.git' // Replace with your repository URL
+                    ]]
+                ])
+            }
+        }
+        
+        /*stage('Get Source Branch') {
             steps {
                 script {
                     def response = sh(script: """
@@ -49,7 +61,7 @@ pipeline {
                     echo "Source Branch: ${env.SOURCE_BRANCH}"
                 }
             }
-        }
+        }*/
 
         /*stage('Checkout Repository') {
             steps {
