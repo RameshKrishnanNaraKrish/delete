@@ -41,6 +41,7 @@ pipeline {
                     branches: [[name: '*/main']], 
                     extensions: [[$class: 'CloneOption', noTags: false, shallow: false]]
                 ])
+                sh "git clone https://github.com/${env.OWNER}/${env.REPO}.git"
                 sh 'git status'
             }
         }
@@ -139,6 +140,7 @@ pipeline {
                     // Perform the revert
                     //sh "git branch -D revert-pr-$PR_ID"
                     //sh 'git checkout -b revert-pr-$PR_ID'
+                    sh "cd ${env.REPO}"
                     sh 'git fetch origin'
                     sh 'git log'
                     //sh "git revert -m 1 ${mergeCommitSha}"
