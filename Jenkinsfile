@@ -94,8 +94,6 @@ pipeline {
                             git config user.email "jenkins@example.com"
 
                             git remote set-url origin https://$GITHUB_TOKEN@github.com/$OWNER/$REPO.git
-
-                            git pull --no-rebase origin main
                             
                             git push origin main
                         '''
